@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:percent_indicator_nullsafe/percent_indicator_nullsafe.dart';
 
 class SampleLinearPage extends StatefulWidget {
   @override

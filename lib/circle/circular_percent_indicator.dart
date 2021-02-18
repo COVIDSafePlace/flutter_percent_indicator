@@ -1,9 +1,10 @@
-import 'package:percent_indicator/circle/utils/circle_painter.dart';
+import 'package:percent_indicator_nullsafe/circle/utils/circle_painter.dart';
 import 'package:vector_math/vector_math.dart' as vectorMath show radians;
 
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circle/enums/circular_stroke_cap.dart';
-import 'package:percent_indicator/circle/enums/arc_type.dart' show ArcType;
+import 'package:percent_indicator_nullsafe/circle/enums/circular_stroke_cap.dart';
+import 'package:percent_indicator_nullsafe/circle/enums/arc_type.dart'
+    show ArcType;
 
 // ignore: must_be_immutable
 class CircularPercentIndicator extends StatefulWidget {

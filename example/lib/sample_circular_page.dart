@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circle/enums/arc_type.dart';
-import 'package:percent_indicator/circle/enums/circular_stroke_cap.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:percent_indicator_nullsafe/circle/enums/arc_type.dart';
+import 'package:percent_indicator_nullsafe/circle/enums/circular_stroke_cap.dart';
+import 'package:percent_indicator_nullsafe/percent_indicator_nullsafe.dart';
 
 class SampleCircularPage extends StatefulWidget {
   @override
