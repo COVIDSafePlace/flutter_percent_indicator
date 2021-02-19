@@ -1,3 +1,5 @@
+# 4.0.0
+- Fix consistent isAnimation usage
 # 3.1.0
 - Big lint
 # 3.0.0-nullsafety.9001
