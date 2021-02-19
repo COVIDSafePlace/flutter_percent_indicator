@@ -138,7 +138,9 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    if (widget.animation) {
+      _animationController.dispose();
+    }
     super.dispose();
   }
 
@@ -209,21 +211,23 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
   void didUpdateWidget(LinearPercentIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.percent != widget.percent) {
-      _animationController.duration = Duration(
-        milliseconds: widget.animationDuration,
-      );
-      _animation = Tween(
-        begin: widget.animateFromLastPercent ? oldWidget.percent : 0.0,
-        end: widget.percent,
-      ).animate(
-        CurvedAnimation(
-          parent: _animationController,
-          curve: widget.curve,
-        ),
-      );
-      _animationController.forward(from: 0.0);
-
-      _updateProgress();
+      if (widget.animation) {
+        _animationController.duration = Duration(
+          milliseconds: widget.animationDuration,
+        );
+        _animation = Tween(
+          begin: widget.animateFromLastPercent ? oldWidget.percent : 0.0,
+          end: widget.percent,
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: widget.curve,
+          ),
+        );
+        _animationController.forward(from: 0.0);
+      } else {
+        _updateProgress();
+      }
     }
     _checkIfNeedCancelAnimation(oldWidget);
   }
