@@ -84,7 +84,7 @@ class _SampleCircularPageState extends State<SampleCircularPage> {
                 lineWidth: 10.0,
                 percent: 0.5,
                 arcBackgroundColor: Colors.orangeAccent,
-                arcType: ArcType.HALF,
+                arcType: ArcType.half,
                 center: Text(
                   "40 hours",
                   style: TextStyle(
@@ -104,7 +104,7 @@ class _SampleCircularPageState extends State<SampleCircularPage> {
                 percent: 0.5,
                 reverse: true,
                 arcBackgroundColor: Colors.teal,
-                arcType: ArcType.FULL,
+                arcType: ArcType.full,
                 center: Text(
                   "20 hours",
                   style: TextStyle(
@@ -284,7 +284,7 @@ class _SampleCircularPageState extends State<SampleCircularPage> {
               fillColor: Colors.transparent,
               circularStrokeCap: CircularStrokeCap.round,
               arcBackgroundColor: Colors.transparent,
-              arcType: ArcType.HALF,
+              arcType: ArcType.half,
             ),
           ],
         ),

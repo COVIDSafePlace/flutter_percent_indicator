@@ -1,5 +1,5 @@
 import 'package:percent_indicator_nullsafe/circle/utils/circle_painter.dart';
-import 'package:vector_math/vector_math.dart' as vectorMath show radians;
+import 'package:vector_math/vector_math.dart' as vector_math show radians;
 
 import 'package:flutter/material.dart';
 import 'package:percent_indicator_nullsafe/circle/enums/circular_stroke_cap.dart';
@@ -94,7 +94,7 @@ class CircularPercentIndicator extends StatefulWidget {
       required this.diameter,
       this.fillColor = Colors.transparent,
       this.backgroundColor = const Color(0xFFB8C7CB),
-      Color? progressColor = null,
+      Color? progressColor,
       // negative values are ignored, replaced with lineWidth
       this.backgroundWidth = -1,
       this.linearGradient,
@@ -152,14 +152,14 @@ class CircularPercentIndicator extends StatefulWidget {
 class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late AnimationController _animationController;
-  late Animation _animation;
+  late Animation<double> _animation;
+
   double _percent = 0.0;
 
   @override
   void dispose() {
-    if (_animationController != null) {
-      _animationController.dispose();
-    }
+    _animationController.dispose();
+
     super.dispose();
   }
 
@@ -177,23 +177,17 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
           parent: _animationController,
           curve: widget.curve,
         ),
-      )..addListener(() {
-          setState(() {
-            _percent = _animation.value;
-          });
-          if (widget.restartAnimation && _percent == 1.0) {
-            _animationController.repeat(
-              min: 0,
-              max: 1.0,
-            );
-          }
-        });
+      );
+
+      addAnimationListener(_animation);
+
       _animationController.addStatusListener((status) {
         if (widget.onAnimationEnd != null &&
             status == AnimationStatus.completed) {
           widget.onAnimationEnd!();
         }
       });
+
       _animationController.forward();
     } else {
       _updateProgress();
@@ -201,10 +195,22 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
     super.initState();
   }
 
+  void addAnimationListener(Animation<double> animation) {
+    return animation.addListener(() {
+      setState(() {
+        _percent = animation.value;
+      });
+      if (widget.restartAnimation && _percent == 1.0) {
+        _animationController.repeat(
+          min: 0,
+          max: 1.0,
+        );
+      }
+    });
+  }
+
   void _checkIfNeedCancelAnimation(CircularPercentIndicator oldWidget) {
-    if (oldWidget.animation &&
-        !widget.animation &&
-        _animationController != null) {
+    if (oldWidget.animation && !widget.animation) {
       _animationController.stop();
     }
   }
@@ -214,27 +220,28 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.percent != widget.percent ||
         oldWidget.startAngle != widget.startAngle) {
-      if (_animationController != null) {
-        _animationController.duration =
-            Duration(milliseconds: widget.animationDuration);
-        _animation = Tween(
-                begin: widget.animateFromLastPercent ? oldWidget.percent : 0.0,
-                end: widget.percent)
-            .animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: widget.curve,
-          ),
-        );
-        _animationController.forward(from: 0.0);
-      } else {
-        _updateProgress();
-      }
+      // if (_animationController != null) {
+      _animationController.duration = Duration(
+        milliseconds: widget.animationDuration,
+      );
+      _animation = Tween(
+        begin: widget.animateFromLastPercent ? oldWidget.percent : 0.0,
+        end: widget.percent,
+      ).animate(
+        CurvedAnimation(
+          parent: _animationController,
+          curve: widget.curve,
+        ),
+      );
+      _animationController.forward(from: 0.0);
+      // } else {
+      _updateProgress();
+      // }
     }
     _checkIfNeedCancelAnimation(oldWidget);
   }
 
-  _updateProgress() {
+  void _updateProgress() {
     setState(() {
       _percent = widget.percent;
     });
@@ -243,12 +250,12 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    var items = <Widget>[];
+    final items = <Widget>[];
     if (widget.header != null) {
       items.add(widget.header!);
     }
     items.add(
-      Container(
+      SizedBox(
         height: widget.diameter,
         width: widget.diameter,
         child: Stack(
@@ -279,20 +286,20 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
             if (widget.widgetIndicator != null && widget.animation)
               Positioned.fill(
                 child: Transform.rotate(
-                  angle: vectorMath.radians(
+                  angle: vector_math.radians(
                       (widget.circularStrokeCap != CircularStrokeCap.butt &&
                               widget.reverse)
                           ? -15
                           : 0),
                   child: Transform.rotate(
-                    angle: vectorMath
+                    angle: vector_math
                         .radians((widget.reverse ? -360 : 360) * _percent),
                     child: Transform.translate(
                       offset: Offset(
                         (widget.circularStrokeCap != CircularStrokeCap.butt)
                             ? widget.lineWidth / 2
                             : 0,
-                        (-widget.diameter / 2 + widget.lineWidth / 2),
+                        -widget.diameter / 2 + widget.lineWidth / 2,
                       ),
                       child: widget.widgetIndicator,
                     ),
@@ -310,12 +317,10 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
 
     return Material(
       color: widget.fillColor,
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: items,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: items,
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator_nullsafe/circle/enums/circular_stroke_cap.dart';
 import 'package:percent_indicator_nullsafe/circle/enums/arc_type.dart'
     show ArcType;
-import 'package:vector_math/vector_math.dart' as vectorMath show radians;
+import 'package:vector_math/vector_math.dart' as vector_math show radians;
 
 class CirclePainter extends CustomPainter {
   final Paint _paintBackground = Paint();
@@ -86,7 +86,7 @@ class CirclePainter extends CustomPainter {
     );
     double startAngleFixedMargin = 1.0;
     if (arcType != null) {
-      if (arcType == ArcType.FULL) {
+      if (arcType == ArcType.full) {
         fixedStartAngle = 220;
         startAngleFixedMargin = 172 / fixedStartAngle;
       } else {
@@ -94,11 +94,11 @@ class CirclePainter extends CustomPainter {
         startAngleFixedMargin = 135 / fixedStartAngle;
       }
     }
-    if (arcType == ArcType.HALF) {
+    if (arcType == ArcType.half) {
       canvas.drawArc(
           rectForArc,
-          vectorMath.radians(-90.0 + fixedStartAngle),
-          vectorMath.radians(360 * startAngleFixedMargin),
+          vector_math.radians(-90.0 + fixedStartAngle),
+          vector_math.radians(360 * startAngleFixedMargin),
           false,
           _paintBackground);
     } else {
@@ -122,13 +122,12 @@ class CirclePainter extends CustomPainter {
         _paintLine.shader = SweepGradient(
                 transform: reverse
                     ? GradientRotation(
-                        vectorMath.radians(-90 - progress + startAngle) -
+                        vector_math.radians(-90 - progress + startAngle) -
                             correction)
                     : GradientRotation(
-                        vectorMath.radians(-90.0 + startAngle) - correction),
-                startAngle: vectorMath.radians(0),
-                endAngle: vectorMath.radians(progress),
-                tileMode: TileMode.clamp,
+                        vector_math.radians(-90.0 + startAngle) - correction),
+                startAngle: vector_math.radians(0),
+                endAngle: vector_math.radians(progress),
                 colors: reverse
                     ? linearGradient!.colors.reversed.toList()
                     : linearGradient!.colors)
@@ -152,7 +151,7 @@ class CirclePainter extends CustomPainter {
 
     startAngleFixedMargin = 1.0;
     if (arcType != null) {
-      if (arcType == ArcType.FULL) {
+      if (arcType == ArcType.full) {
         fixedStartAngle = 220;
         startAngleFixedMargin = 172 / fixedStartAngle;
       } else {
@@ -167,17 +166,17 @@ class CirclePainter extends CustomPainter {
           center: center,
           radius: radius,
         ),
-        vectorMath.radians(-90.0 + fixedStartAngle),
-        vectorMath.radians(360 * startAngleFixedMargin),
+        vector_math.radians(-90.0 + fixedStartAngle),
+        vector_math.radians(360 * startAngleFixedMargin),
         false,
         _paintBackgroundStartAngle,
       );
     }
 
     if (reverse) {
-      final start = vectorMath
+      final start = vector_math
           .radians(360 * startAngleFixedMargin - 90.0 + fixedStartAngle);
-      final end = vectorMath.radians(-progress * startAngleFixedMargin);
+      final end = vector_math.radians(-progress * startAngleFixedMargin);
       canvas.drawArc(
         Rect.fromCircle(
           center: center,
@@ -189,8 +188,8 @@ class CirclePainter extends CustomPainter {
         _paintLine,
       );
     } else {
-      final start = vectorMath.radians(-90.0 + fixedStartAngle);
-      final end = vectorMath.radians(progress * startAngleFixedMargin);
+      final start = vector_math.radians(-90.0 + fixedStartAngle);
+      final end = vector_math.radians(progress * startAngleFixedMargin);
       canvas.drawArc(
         Rect.fromCircle(
           center: center,

@@ -1,4 +1,4 @@
 enum ArcType {
-  HALF,
-  FULL,
+  half,
+  full,
 }
