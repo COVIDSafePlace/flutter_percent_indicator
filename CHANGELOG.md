@@ -1,3 +1,5 @@
+# 4.0.1-nullsafety.01.259.9.beta
+- Quick doco update
 # 4.0.0
 - Fix consistent isAnimation usage
 # 3.1.0
