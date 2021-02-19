@@ -1,8 +1,10 @@
-include: package:lint/analysis_options.yaml
+include: package:lint/analysis_options_package.yaml
 
 # https://www.dartlang.org/guides/language/analysis-options
 analyzer:
-  language:
+  exclude:
+    # workaround for https://github.com/dart-lang/sdk/issues/42910
+    - 'example/**'
 
 # Source of linter options:
 # http://dart-lang.github.io/linter/lints/options/options.html
