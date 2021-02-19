@@ -2,7 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/percent_indicator.svg)](https://pub.dev/packages/percent_indicator)
 
-Circular and Linear percent indicators
+Nullsafe circular and linear percent indicators for Flutter web, Android, iOS, desktop, macOS, Windows, Linux
 
 <p align="center">
 <img src="https://image.ibb.co/doViid/screen1.png" alt="drawing" width="230px" hspace="30"/>  <img src="https://image.ibb.co/bszyGy/screen2.png" alt="drawing" width="230px"/> 
